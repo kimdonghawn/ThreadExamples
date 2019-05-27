@@ -7,6 +7,7 @@ public class SumMultipleThreads implements Runnable{
 	long from, to, totalSum;
 
 	public static void main(String[] args) {
+		
 
 		long to = 10000000;
 		ArrayList<SumMultipleThreads> sumRunners = new ArrayList<SumMultipleThreads>();
@@ -33,12 +34,21 @@ public class SumMultipleThreads implements Runnable{
 			thread.start();
 			threadsForSubSum.add(thread);
 		}
-
+	
 		long grandTotal = 0;
+		 
 		for(SumMultipleThreads runner:sumRunners) {
+			Thread thread = new Thread(runner);
+			thread.start();
+			try {
+				thread.join(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			grandTotal += runner.totalSum;
 		}
-
+		
 		System.out.println("Grand Total = " + grandTotal);
 	}
 
